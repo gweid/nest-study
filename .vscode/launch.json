@@ -11,13 +11,13 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": [
         "run-script",
-        "start:dev"
+        "start:dev"                              // nest 通过这个参数启动
       ],
-      "cwd": "${workspaceFolder}/nest-test",
+      "cwd": "${workspaceFolder}/nest-test",     // 如果.vscode 不在项目根目录，可以通过这个指定项目目录
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "console": "integratedTerminal"
+      "console": "integratedTerminal"            // 指定使用vscode的终端输出日志
     }
   ]
 }

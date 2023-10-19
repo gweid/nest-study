@@ -101,6 +101,8 @@ nest 也是 node 项目，也可以 通过这种方式来调试，但是 nest �
 
 #### 配置式
 
+**调试Node**
+
 点击调试面板，创建 launch.json 
 
 然后输入 node，快速创建一个 node 调试配置：
@@ -121,9 +123,66 @@ nest 也是 node 项目，也可以 通过这种方式来调试，但是 nest �
 
 
 
+**通过配置 npm 命令调试 nest**
+
+输入 npm
+
+![](./imgs/img27.png)
 
 
 
+配置如下：
+
+```json
+{
+  // 使用 IntelliSense 了解相关属性。 
+  // 悬停以查看现有属性的描述。
+  // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "name": "Launch via NPM",
+      "request": "launch",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run-script",
+        "start:dev"                              // nest 通过这个参数启动
+      ],
+      "cwd": "${workspaceFolder}/nest-test",     // 如果.vscode 不在项目根目录，可以通过这个指定项目目录
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "console": "integratedTerminal"            // 指定使用vscode的终端输出日志
+    }
+  ]
+}
+```
+
+
+
+然后启动调试，进行断点即可
+![](./imgs/img28.png)
+
+
+
+**更快捷的方式**
+
+Ctrl + p 打开 vscode 快捷面板，输入 debug + 空格
+
+![](./imgs/img29.png)
+
+
+
+然后 选择：
+
+![](./imgs/img30.png)
+
+ 
+
+可以快速通过 vscode 自动生成配置
+
+![](./imgs/img31.png)
 
 
 
