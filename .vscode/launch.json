@@ -6,11 +6,11 @@
   "configurations": [
     {
       "type": "node",
-      "name": "Launch via NPM",
+      "name": "debugger",
       "request": "launch",
-      "runtimeExecutable": "npm",
+      "runtimeExecutable": "pnpm",
       "runtimeArgs": [
-        "run-script",
+        "run",
         "start:dev"                              // nest 通过这个参数启动
       ],
       "cwd": "${workspaceFolder}/nest-test",     // 如果.vscode 不在项目根目录，可以通过这个指定项目目录
