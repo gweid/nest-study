@@ -1,51 +1,39 @@
-const net = require('net');
 import { Injectable } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
+import { map } from 'rxjs/operators';
+import * as iconv from 'iconv-lite';
 
 @Injectable()
 export class AppService {
+  constructor(private httpService: HttpService) {}
+
+  async getIpInfo(ip: string): Promise<any> {
+    const url = `https://whois.pconline.com.cn/ipJson.jsp?json=true&ip=${ip}`;
+
+    return this.httpService.get(url, { responseType: 'arraybuffer' }).pipe(
+      map(response => {
+        const { addr = '' } = JSON.parse(iconv.decode(Buffer.from(response.data), 'gbk'));
+
+        const res = {
+          code: 0,
+          data: {
+            addr
+          },
+          msg: 'ok'
+        };
+
+        return res
+      })
+    );
+  }
+
   async getHello(): Promise<string> {
-    function scanPort(ip, port, timeout = 2000) {
-      return new Promise((resolve) => {
-        const socket = new net.Socket();
-        const status = { port, status: 'closed' };
-    
-        socket.setTimeout(timeout);
-        socket.on('connect', () => {
-          console.log('connect');
-          status.status = 'open';
-          socket.end();
-        });
-        socket.on('timeout', () => {
-          console.log('timeout');
-          socket.destroy();
-        });
-        socket.on('error', () => {
-          console.log('error');
-          socket.destroy();
-        });
-        socket.on('close', () => {
-          console.log('close');
-          resolve(status);
-        });
-    
-        socket.connect(port, ip);
-      });
+    const results = {
+      'name': 'jack',
+      'age': 18,
+      'sex': 1
     }
-    
-    function scanPorts(ip, startPort, endPort) {
-      const portScans = [];
-      for (let port = startPort; port <= endPort; port++) {
-        portScans.push(scanPort(ip, port));
-      }
-      return Promise.all(portScans);
-    }
-    
-    // 示例IP和端口范围
-    const ip = '123.179.178.215';
-    const portRange = '9999-10001';
-    const [startPort, endPort] = portRange.split('-').map(Number);
-    
-    const results = await scanPorts(ip, startPort, endPort)
+
     return JSON.stringify(results, null, 2)
     // return 'Hello World!';
   }
